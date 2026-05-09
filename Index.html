@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Everywhere Project — Redesign v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1714;
+  --ink-mid:#5c5650;
+  --ink-light:#9c9690;
+  --white:#ffffff;
+  --sand:#f0f0f8;
+  --sand-b:#e0e0f0;
+  --peach:#f5e8f8;
+  --peach-b:#e8d8f0;
+  --terra:#8b5fbf;
+  --terra-d:#7a4db0;
+  --teal:#2a5f7f;
+  --teal-mid:#4a7fa0;
+  --purple:#8b5fbf;
+  --cyan:#4dd0e1;
+  --cyan-light:#b3f5fc;
+  --serif:'Lora',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --nav:56px;
+  --tab:38px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);font-size:15px;line-height:1.65}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(–nav);background:var(–white);border-bottom:1px solid var(–sand-b);display:flex;align-items:center;justify-content:space-between;padding:0 40px}
+.n-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.n-icon{width:30px;height:30px;border-radius:5px;background:var(–terra);display:flex;align-items:center;justify-content:center;font-family:var(–serif);font-size:13px;color:#fff;font-style:italic;flex-shrink:0}
+.n-name{font-size:13px;font-weight:600;color:var(–ink)}
+.n-links{display:flex;align-items:center;gap:22px}
+.n-links a{font-size:12px;color:var(–ink-mid);cursor:pointer;transition:color .15s;text-decoration:none}
+.n-links a:hover{color:var(–ink)}
+.n-cta{background:var(–terra);color:#fff!important;padding:7px 16px;border-radius:5px;font-size:12px;font-weight:500;margin-left:4px}
+.n-cta:hover{background:var(–terra-d)!important}
+
+/* ── TABS ── */
+.tabs{position:fixed;top:var(–nav);left:0;right:0;z-index:99;height:var(–tab);background:var(–sand);border-bottom:1px solid var(–sand-b);display:flex;align-items:stretch;overflow-x:auto;padding:0 40px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:0 14px;font-size:11px;font-weight:500;color:var(–ink-mid);cursor:pointer;white-space:nowrap;border:none;background:none;border-bottom:2px solid transparent;height:100%;transition:all .15s;font-family:var(–sans)}
+.tab.on{color:var(–terra);border-bottom-color:var(–terra)}
+.tab:hover{color:var(–ink)}
+
+/* ── PAGES ── */
+.pg{display:none;padding-top:calc(var(–nav) + var(–tab))}
+.pg.on{display:block}
+
+/* ── NOTE BAR ── */
+.dn{background:var(–ink);color:rgba(255,255,255,.6);padding:7px 40px;font-size:11px;border-left:3px solid var(–terra)}
+.dn b{color:#fff}
+
+/* ── TYPOGRAPHY ── */
+.lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(–terra);margin-bottom:8px}
+.lbl-t{color:var(–terra)}
+.serif-xl{font-family:var(–serif);font-size:clamp(28px,4vw,48px);font-weight:400;line-height:1.1;color:var(–ink)}
+.serif-xl em,.serif-lg em,.serif-md em{font-style:italic;color:var(–cyan)}
+.serif-lg{font-family:var(–serif);font-size:clamp(22px,3vw,36px);font-weight:400;line-height:1.15;color:var(–ink)}
+.serif-md{font-family:var(–serif);font-size:22px;font-weight:400;line-height:1.2;color:var(–ink)}
+.body-l{font-size:15px;color:var(–ink-mid);line-height:1.75}
+.body-m{font-size:14px;color:var(–ink-mid);line-height:1.7}
+.body-s{font-size:12px;color:var(–ink-mid);line-height:1.65}
+
+/* ── BUTTONS ── */
+.btn{display:inline-block;padding:10px 22px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:var(–sans);transition:all .15s;text-decoration:none}
+.bt{background:var(–terra);color:#fff}.bt:hover{background:var(–terra-d)}
+.bow{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.38)}.bow:hover{background:rgba(255,255,255,.08)}
+.bo{background:transparent;color:var(–ink);border:1.5px solid var(–sand-b)}.bo:hover{border-color:var(–ink-mid)}
+.rule{width:32px;height:2px;background:var(–terra);margin-bottom:14px}
+
+/* ──────────────────────────────
+HERO — purple/teal gradient bg
+────────────────────────────── */
+.hero{background:linear-gradient(135deg, #8b5fbf 0%, #4a7fa0 100%);padding:56px 40px 56px 56px;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;min-height:86vh}
+.h-eye{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:16px;display:flex;align-items:center;gap:7px}
+.h-eye span{width:14px;height:1px;background:rgba(255,255,255,.3)}
+.hero h1{font-family:var(–serif);font-size:clamp(28px,4vw,50px);color:#fff;line-height:1.08;font-weight:400;margin-bottom:18px}
+.hero h1 em{font-style:italic;color:#b3f5fc}
+.h-sub{font-size:14px;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:26px;max-width:380px}
+.h-btns{display:flex;gap:10px;flex-wrap:wrap}
+.h-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;margin-top:32px}
+.h-stat{background:rgba(255,255,255,.05);padding:14px 16px}
+.h-sv{font-family:var(–serif);font-size:28px;color:#b3f5fc;line-height:1;margin-bottom:3px}
+.h-sl{font-size:11px;color:rgba(255,255,255,.44);line-height:1.35}
+.h-photo{border-radius:10px;background:rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative;min-height:400px}
+.h-ph-icon{font-size:32px;opacity:.18}
+.h-ph-cap{font-size:11px;color:rgba(255,255,255,.2);text-align:center;padding:0 20px}
+.h-quote{position:absolute;bottom:14px;left:14px;right:14px;background:rgba(42,95,127,.92);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:12px 14px}
+.h-quote p{font-size:12px;color:rgba(255,255,255,.82);font-style:italic;line-height:1.5}
+.h-quote cite{font-size:10px;color:rgba(255,255,255,.36);font-style:normal;display:block;margin-top:3px}
+
+/* ── PEACH STRIP (now purple-tinted) ── */
+.strip{background:linear-gradient(90deg, rgba(245, 232, 248, 0.8) 0%, rgba(179, 245, 252, 0.8) 100%);border-top:1px solid var(–peach-b);border-bottom:1px solid var(–peach-b);padding:28px 56px;display:grid;grid-template-columns:repeat(4,1fr)}
+.st-item{padding:0 16px;border-right:1px solid var(–peach-b)}
+.st-item:first-child{padding-left:0}
+.st-item:last-child{border:none}
+.st-n{font-family:var(–serif);font-size:30px;color:var(–terra);line-height:1;margin-bottom:3px}
+.st-t{font-size:12px;color:var(–ink-mid);line-height:1.4}
+
+/* ── WHITE INTRO ── */
+.intro{padding:68px 56px;display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:center}
+
+/* ── SAND SERVICES ── */
+.svcs{padding:60px 56px;background:linear-gradient(180deg, var(–sand) 0%, rgba(240, 240, 248, 0.5) 100%)}
+.svcs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px}
+.sc{background:var(–white);border-radius:8px;padding:20px 20px 16px;border:1px solid var(–sand-b);cursor:pointer;transition:box-shadow .2s}
+.sc:hover{box-shadow:0 4px 16px rgba(139,95,191,.12)}
+.sc-icon{font-size:20px;margin-bottom:10px}
+.sc h3{font-size:13px;font-weight:600;color:var(–ink);margin-bottom:5px}
+.sc p{font-size:12px;color:var(–ink-mid);line-height:1.6}
+.sc-link{display:inline-block;margin-top:10px;font-size:10px;font-weight:600;color:var(–terra);text-transform:uppercase;letter-spacing:.05em}
+.sc-link::after{content:’ →’}
+
+/* ── PEACH STORY (now gradient) ── */
+.story{padding:60px 56px;background:linear-gradient(90deg, #f5e8f8 0%, #b3f5fc 100%);border-top:1px solid var(–peach-b);border-bottom:1px solid var(–peach-b);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.story-q{font-family:var(–serif);font-size:17px;color:var(–ink);line-height:1.55;font-style:italic;padding:16px 0 16px 16px;border-left:2px solid var(–terra);margin:18px 0}
+.tl{display:flex;flex-direction:column}
+.tl-row{display:grid;grid-template-columns:42px 1fr;gap:10px;padding-bottom:18px;position:relative}
+.tl-row:last-child{padding-bottom:0}
+.tl-row::before{content:’’;position:absolute;left:14px;top:20px;bottom:0;width:1px;background:var(–peach-b)}
+.tl-row:last-child::before{display:none}
+.tl-dot{width:7px;height:7px;border-radius:50%;background:var(–terra);position:absolute;left:12px;top:4px}
+.tl-yr{font-family:var(–serif);font-size:13px;color:var(–terra);padding-top:1px}
+.tl-h{font-size:13px;font-weight:500;color:var(–ink);margin-bottom:2px}
+.tl-p{font-size:12px;color:var(–ink-mid);line-height:1.5}
+
+/* ── WHITE VOLUNTEER ── */
+.vol{padding:60px 56px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.v-opts{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.v-opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid var(–sand-b);border-radius:7px;cursor:pointer;transition:border-color .15s}
+.v-opt:hover{border-color:var(–terra)}
+.v-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.v-opt h4{font-size:12px;font-weight:500;color:var(–ink);margin-bottom:1px}
+.v-opt p{font-size:11px;color:var(–ink-mid)}
+.ev-lbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(–terra);margin-bottom:10px}
+.ev-list{display:flex;flex-direction:column;gap:7px}
+.ev-row{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center;padding:10px 13px;border:1px solid var(–sand-b);border-radius:7px;background:var(–white)}
+.ev-d{text-align:center}
+.ev-day{font-family:var(–serif);font-size:18px;color:var(–terra);line-height:1}
+.ev-mo{font-size:9px;color:var(–ink-light);text-transform:uppercase;letter-spacing:.05em}
+.ev-t{font-size:12px;font-weight:500;color:var(–ink)}
+.ev-m{font-size:10px;color:var(–ink-light);margin-top:1px}
+.ev-badge{display:inline-block;font-size:9px;padding:1px 5px;border-radius:3px;font-weight:500;margin-left:4px;background:#f0ebfa;color:var(–terra)}
+
+/* ── FOOTER ── */
+footer{background:var(–ink);padding:44px 56px 24px}
+.f-grid{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px}
+.f-bn{font-family:var(–serif);font-size:17px;color:#fff;margin-bottom:8px}
+.f-tg{font-size:12px;color:rgba(255,255,255,.36);line-height:1.6;max-width:200px}
+.f-ein{font-size:10px;color:rgba(255,255,255,.2);margin-top:10px}
+.f-col h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:11px}
+.f-col a{display:block;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:7px;cursor:pointer;text-decoration:none;transition:color .15s}
+.f-col a:hover{color:#fff}
+.f-bot{border-top:1px solid rgba(255,255,255,.08);padding-top:16px;display:flex;justify-content:space-between;align-items:center}
+.f-copy{font-size:11px;color:rgba(255,255,255,.2)}
+.f-soc{display:flex;gap:7px}
+.soc{width:28px;height:28px;border-radius:5px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.35);cursor:pointer;transition:background .15s}
+.soc:hover{background:rgba(255,255,255,.14);color:#fff}
+
+/* ── INNER HERO (purple/teal gradient) ── */
+.ih{background:linear-gradient(135deg, #8b5fbf 0%, #4a7fa0 100%);padding:56px 56px 48px}
+.ih-eye{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px}
+.ih h1{font-family:var(–serif);font-size:clamp(26px,3.5vw,44px);color:#fff;font-weight:400;line-height:1.1;max-width:500px;margin-bottom:12px}
+.ih h1 em{font-style:italic;color:#b3f5fc}
+.ih p{font-size:15px;color:rgba(255,255,255,.55);max-width:460px;line-height:1.65}
+
+/* ──────────────────
+SERVICES PAGE
+────────────────── */
+.svc-body{padding:56px 56px;background:var(–white)}
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px 60px;margin-top:32px}
+.sb{border-bottom:1px solid var(–sand-b);padding-bottom:36px}
+.svc-grid .sb:nth-last-child(-n+2){border-bottom:none;padding-bottom:0}
+.sb-icon{font-size:22px;margin-bottom:8px}
+.sb h3{font-family:var(–serif);font-size:20px;font-weight:400;color:var(–ink);margin-bottom:8px}
+.sb p{font-size:13px;color:var(–ink-mid);line-height:1.7;margin-bottom:5px}
+.sb ul{padding-left:15px}
+.sb li{font-size:12px;color:var(–ink-mid);margin-bottom:4px;line-height:1.5}
+.sb .ct{font-size:12px;font-weight:500;color:var(–terra);margin-top:9px}
+.sb .meta{font-size:12px;color:var(–ink-mid);margin-top:8px;line-height:1.6}
+.sb .meta b{color:var(–ink);font-weight:500}
+
+/* ──────────────────
+ABOUT PAGE
+────────────────── */
+.ab-body{padding:56px 56px;background:var(–white)}
+.ab-story{max-width:580px;margin:0 auto 52px}
+.ab-story h2{font-family:var(–serif);font-size:26px;font-weight:400;color:var(–ink);margin-bottom:14px}
+.ab-story p{font-size:14px;color:var(–ink-mid);line-height:1.8;margin-bottom:12px}
+.ab-q{font-family:var(–serif);font-size:18px;color:var(–ink);font-style:italic;border-left:2px solid var(–terra);padding-left:15px;margin:22px 0;line-height:1.55}
+.mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0}
+.mv{background:linear-gradient(135deg, #f5e8f8 0%, #b3f5fc 100%);border:1px solid var(–peach-b);border-radius:8px;padding:18px}
+.mv h3{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(–terra);margin-bottom:7px}
+.mv p{font-size:13px;color:var(–ink-mid);line-height:1.7}
+.team-sec{padding:52px 56px;background:var(–sand)}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px}
+.tc{background:var(–white);border-radius:8px;padding:16px 14px;border:1px solid var(–sand-b);text-align:center}
+.tc-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg, #8b5fbf 0%, #4a7fa0 100%);margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-family:var(–serif);font-size:14px;color:#fff;font-style:italic}
+.tc-n{font-size:12px;font-weight:500;color:var(–ink);margin-bottom:2px}
+.tc-r{font-size:10px;color:var(–ink-light)}
+.tc-c{font-size:9px;color:var(–terra);margin-top:2px;font-weight:500}
+
+/* ──────────────────
+RESOURCES PAGE
+────────────────── */
+.res-body{padding:56px 56px;background:var(–white)}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:32px}
+.rc{background:linear-gradient(135deg, #f5e8f8 0%, #b3f5fc 100%);border:1px solid var(–peach-b);border-radius:8px;padding:18px}
+.rc-tag{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(–terra);margin-bottom:6px}
+.rc h3{font-size:14px;font-weight:500;color:var(–ink);margin-bottom:5px;line-height:1.3}
+.rc p{font-size:12px;color:var(–ink-mid);line-height:1.6}
+.rc-dl{display:inline-block;margin-top:10px;font-size:11px;font-weight:600;color:var(–terra);cursor:pointer}
+.rc-dl::before{content:’↓  ’}
+
+/* ──────────────────
+GET INVOLVED
+────────────────── */
+.gi-body{padding:56px 56px;background:var(–white);display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.gi-opts{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.gi-o{display:flex;gap:10px;padding:12px 14px;border:1px solid var(–sand-b);border-radius:7px;cursor:pointer;transition:border-color .15s}
+.gi-o:hover{border-color:var(–terra)}
+.gi-o h4{font-size:12px;font-weight:500;color:var(–ink);margin-bottom:2px}
+.gi-o p{font-size:11px;color:var(–ink-mid)}
+.info-b{margin-top:12px;padding:13px 15px;background:linear-gradient(135deg, #f5e8f8 0%, #b3f5fc 100%);border:1px solid var(–peach-b);border-radius:7px;font-size:12px;color:var(–ink-mid);line-height:1.6}
+.info-b b{color:var(–ink);font-weight:500;display:block;margin-bottom:2px}
+
+/* ──────────────────
+DONATE PAGE
+────────────────── */
+.don{padding:56px 56px;background:var(–sand);display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+.g-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+.gc{background:var(–white);border:1.5px solid var(–sand-b);border-radius:7px;padding:14px 15px;cursor:pointer;transition:border-color .15s}
+.gc:hover{border-color:var(–terra)}
+.gc.feat{border-color:var(–terra);background:linear-gradient(135deg, #f5e8f8 0%, #b3f5fc 100%)}
+.g-amt{font-family:var(–serif);font-size:22px;color:var(–ink);line-height:1}
+.g-what{font-size:11px;color:var(–ink-mid);margin-top:4px;line-height:1.4}
+.g-pop{font-size:9px;font-weight:600;color:var(–terra);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.monthly{margin-top:4px;padding:13px 15px;border-radius:7px;background:var(–white);border:1px solid var(–sand-b);font-size:12px;color:var(–ink-mid);line-height:1.6}
+.monthly b{color:var(–ink);display:block;margin-bottom:2px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.d-aside{background:linear-gradient(135deg, #8b5fbf 0%, #4a7fa0 100%);border-radius:10px;padding:24px;display:flex;flex-direction:column;gap:15px}
+.ai{display:flex;gap:11px}
+.a-icon{font-size:16px;flex-shrink:0;margin-top:2px}
+.ai h4{font-size:13px;font-weight:500;color:rgba(255,255,255,.88);margin-bottom:2px}
+.ai p{font-size:11px;color:rgba(255,255,255,.5);line-height:1.55}
+.a-div{height:1px;background:rgba(255,255,255,.1)}
+.a-wish{font-size:11px;color:rgba(255,255,255,.38);text-align:center}
+.a-wish a{color:rgba(255,255,255,.65);text-decoration:none}
+
+/* ──────────────────
+CONTACT PAGE
+────────────────── */
+.co-body{padding:56px 56px;background:var(–white);display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.f-stack{display:flex;flex-direction:column;gap:11px}
+.f-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg label{font-size:11px;font-weight:500;color:var(–ink)}
+.fg input,.fg textarea,.fg select{padding:9px 12px;border-radius:6px;border:1px solid var(–sand-b);font-family:var(–sans);font-size:12px;color:var(–ink);background:var(–white);transition:border-color .15s;-webkit-appearance:none}
+.fg input:focus,.fg textarea:focus,.fg select:focus{outline:none;border-color:var(–terra)}
+.fg textarea{height:96px;resize:vertical}
+.sbtn{background:var(–terra);color:#fff;padding:11px;border-radius:6px;font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:var(–sans);transition:background .15s}
+.sbtn:hover{background:var(–terra-d)}
+.co-info{display:flex;flex-direction:column;gap:16px}
+.ci{display:flex;gap:10px}
+.ci-icon{font-size:15px;margin-top:2px}
+.ci h4{font-size:13px;font-weight:500;color:var(–ink);margin-bottom:2px}
+.ci p{font-size:12px;color:var(–ink-mid);line-height:1.55}
+.site-cards{display:flex;flex-direction:column;gap:8px;margin-top:5px}
+.site-c{background:linear-gradient(135deg, #f5e8f8 0%, #b3f5fc 100%);border:1px solid var(–peach-b);border-radius:7px;padding:12px 14px}
+.site-c h4{font-size:12px;font-weight:600;color:var(–ink);margin-bottom:2px}
+.site-c p{font-size:11px;color:var(–ink-mid)}
+
+/* ──────────────────
+DESIGN NOTES
+────────────────── */
+.notes-body{padding:56px 56px;background:var(–white)}
+.pal{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.sw{width:72px}
+.sw-c{height:44px;border-radius:5px;border:1px solid rgba(0,0,0,.06)}
+.sw-l{font-size:10px;color:var(–ink-mid);margin-top:4px}
+.sw-h{font-size:9px;color:var(–ink-light)}
+.notes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px}
+.nc{background:var(–sand);border:1px solid var(–sand-b);border-radius:8px;padding:18px}
+.nc-n{font-family:var(–serif);font-size:26px;color:var(–sand-b);line-height:1;margin-bottom:6px}
+.nc h3{font-size:12px;font-weight:600;color:var(–terra);margin-bottom:6px}
+.nc p{font-size:12px;color:var(–ink-mid);line-height:1.65}
+
+/* mini footer for inner pages */
+.mini-foot{background:var(–white);border-top:1px solid var(–sand-b);padding:16px 56px;display:flex;justify-content:space-between;align-items:center}
+.mini-foot span{font-size:11px;color:var(–ink-light)}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav class="nav">
+  <a class="n-logo" href="#">
+    <div class="n-icon">EP</div>
+    <span class="n-name">The Everywhere Project</span>
+  </a>
+  <div class="n-links">
+    <a onclick="go('services')">Services</a>
+    <a onclick="go('about')">About</a>
+    <a onclick="go('resources')">Resources</a>
+    <a onclick="go('involved')">Get Involved</a>
+    <a onclick="go('contact')">Contact</a>
+    <a class="n-cta" onclick="go('donate')">Donate</a>
+  </div>
+</nav>
+
+<!-- TABS -->
+
+<div class="tabs">
+  <button class="tab on" onclick="go('home')">Homepage</button>
+  <button class="tab" onclick="go('services')">Services</button>
+  <button class="tab" onclick="go('about')">About Us</button>
+  <button class="tab" onclick="go('resources')">Resources</button>
+  <button class="tab" onclick="go('involved')">Get Involved</button>
+  <button class="tab" onclick="go('donate')">Donate</button>
+  <button class="tab" onclick="go('contact')">Contact</button>
+  <button class="tab" onclick="go('notes')">Design Notes</button>
+</div>
+
+<!-- ══════════════════════════════
+     HOME
+══════════════════════════════ -->
+
+<div id="p-home" class="pg on">
+<div class="dn"><b>Homepage:</b> White base throughout. Purple/teal gradient hero. Gradient strip for stats. Sand for services. Purple/teal throughout CTAs and key moments.</div>
+
+<!-- Hero: purple/teal gradient -->
+
+<section class="hero">
+  <div>
+    <div class="h-eye"><span></span>Philadelphia · Harm Reduction · Since 2021</div>
+    <h1>Showing up for Philadelphia,<br><em>every single week.</em></h1>
+    <p class="h-sub">Naloxone, food, clothing, fentanyl testing strips, and overdose prevention, wherever the community needs us.</p>
+    <div class="h-btns">
+      <button class="btn bt" onclick="go('donate')">Make a Donation</button>
+      <button class="btn bow" onclick="go('involved')">Volunteer With Us</button>
+    </div>
+    <div class="h-stats">
+      <div class="h-stat"><div class="h-sv">5M+</div><div class="h-sl">Meals distributed since 2021</div></div>
+      <div class="h-stat"><div class="h-sv">300+</div><div class="h-sl">Neighbors served every week</div></div>
+      <div class="h-stat"><div class="h-sv">#2</div><div class="h-sl">Safer-use supplier in Philadelphia</div></div>
+      <div class="h-stat"><div class="h-sv">0</div><div class="h-sl">Outreach events ever missed</div></div>
+    </div>
+  </div>
+  <div class="h-photo">
+    <div class="h-ph-icon">📸</div>
+    <div class="h-ph-cap">Real community outreach photography goes here</div>
+    <div class="h-quote">
+      <p>"Seeing you out here every week makes it easier for me to be out here."</p>
+      <cite>Resident, The Parkway, Summer 2021</cite>
+    </div>
+  </div>
+</section>
+
+<!-- Gradient stat strip -->
+
+<div class="strip">
+  <div class="st-item"><div class="st-n">1,000+</div><div class="st-t">Individuals served each week</div></div>
+  <div class="st-item"><div class="st-n">175</div><div class="st-t">Thanksgiving boxes in 2025</div></div>
+  <div class="st-item"><div class="st-n">1,600 lbs</div><div class="st-t">Food to Conwell Middle during SNAP cuts</div></div>
+  <div class="st-item"><div class="st-n">1,000</div><div class="st-t">Toys for children every holiday season</div></div>
+</div>
+
+<!-- White intro -->
+
+<section class="intro">
+  <div>
+    <div class="rule"></div>
+    <h2 class="serif-xl">We don't wait for people to come to us.<br><em>We go to them.</em></h2>
+  </div>
+  <div>
+    <p class="body-l">TEP is a Philadelphia-based 501(c)(3) harm reduction nonprofit. We expand access to naloxone, fentanyl testing strips, safer use supplies, food, clothing, and overdose prevention education, at music festivals, community events, and on the streets every single week.</p>
+    <p class="body-l" style="margin-top:12px">No barriers. No judgment. Harm reduction is love.</p>
+    <a style="display:inline-block;margin-top:18px;font-size:11px;font-weight:600;color:var(--terra);text-transform:uppercase;letter-spacing:.05em;cursor:pointer" onclick="go('about')">Our story →</a>
+  </div>
+</section>
+
+<!-- Sand services -->
+
+<section class="svcs">
+  <div class="lbl">What we do</div>
+  <h2 class="serif-lg">Showing up everywhere it matters</h2>
+  <div class="svcs-grid">
+    <div class="sc" onclick="go('services')"><div class="sc-icon">🍲</div><h3>Community Meal Sites</h3><p>Every Wed at Love Park, every Sat in Kensington. 1,000+ people weekly, not once missed since 2021.</p><span class="sc-link">Learn more</span></div>
+    <div class="sc" onclick="go('services')"><div class="sc-icon">🚐</div><h3>Mobile Outreach</h3><p>Out 6–7 days a week across Philadelphia and surrounding counties with food, supplies, and treatment referrals.</p><span class="sc-link">Learn more</span></div>
+    <div class="sc" onclick="go('services')"><div class="sc-icon">🎵</div><h3>Event Support</h3><p>Festivals, raves, concerts, naloxone, testing strips, and harm reduction education for your venue.</p><span class="sc-link">Learn more</span></div>
+    <div class="sc" onclick="go('services')"><div class="sc-icon">🌡️</div><h3>Extreme Weather Response</h3><p>Code Blue, Code Red, cooling and warming stations, emergency supplies, and transportation to shelter.</p><span class="sc-link">Learn more</span></div>
+    <div class="sc" onclick="go('services')"><div class="sc-icon">🎁</div><h3>Holiday Events</h3><p>Two Thanksgiving feasts, 175+ family boxes, and 1,000 toys for children every season.</p><span class="sc-link">Learn more</span></div>
+    <div class="sc" onclick="go('services')"><div class="sc-icon">🤝</div><h3>Specialized Support</h3><p>People in treatment, newly housed, or hospitalized, school pantry restocking, children's clothing drives.</p><span class="sc-link">Learn more</span></div>
+  </div>
+</section>
+
+<!-- Gradient story -->
+
+<section class="story">
+  <div>
+    <div class="lbl lbl-t">How it started</div>
+    <h2 class="serif-lg">A subway station.<br>December 2020.</h2>
+    <blockquote class="story-q">"Shannon had shown up unprepared. Jen loaded her up from her car without a second thought."</blockquote>
+    <p class="body-m">Every other organization had gone inside. Overdoses were at a record high. Two strangers kept showing up, and never stopped.</p>
+    <button class="btn bo" style="margin-top:22px" onclick="go('about')">Read the full story</button>
+  </div>
+  <div class="tl">
+    <div class="tl-row"><div class="tl-dot"></div><div class="tl-yr">2020</div><div><div class="tl-h">First outreach</div><div class="tl-p">Two strangers distribute food and naloxone when no one else would.</div></div></div>
+    <div class="tl-row"><div class="tl-dot"></div><div class="tl-yr">2021</div><div><div class="tl-h">501(c)(3) incorporated</div><div class="tl-p">First week at Love Park: 30 people served.</div></div></div>
+    <div class="tl-row"><div class="tl-dot"></div><div class="tl-yr">2023</div><div><div class="tl-h">#2 safer-use supplier in Philadelphia</div><div class="tl-p">300+ served weekly. 5 million meals cumulatively.</div></div></div>
+    <div class="tl-row"><div class="tl-dot"></div><div class="tl-yr">2025</div><div><div class="tl-h">SNAP response</div><div class="tl-p">175 Thanksgiving boxes + 1,600 lbs food to Conwell Middle School.</div></div></div>
+  </div>
+</section>
+
+<!-- White volunteer + events -->
+
+<section class="vol">
+  <div>
+    <div class="lbl">Get involved</div>
+    <h2 class="serif-lg">Come out<br><em>with us.</em></h2>
+    <p class="body-m" style="margin-top:12px">No experience required. Show up, move fast, take care of your neighbors.</p>
+    <div class="v-opts">
+      <div class="v-opt"><div class="v-icon">🌆</div><div><h4>LOVE Park, Wednesdays</h4><p>6:45 PM · 15th & JFK Blvd, Center City</p></div></div>
+      <div class="v-opt"><div class="v-icon">🏘️</div><div><h4>Kensington, Saturdays</h4><p>12:30 PM · Ruth & Clearfield St.</p></div></div>
+      <div class="v-opt"><div class="v-icon">🧰</div><div><h4>Kit Making, Thursdays</h4><p>6:00 PM · Contact Sherm for location</p></div></div>
+    </div>
+    <button class="btn bt" style="margin-top:18px" onclick="go('involved')">See all events</button>
+  </div>
+  <div>
+    <div class="ev-lbl">Upcoming events</div>
+    <div class="ev-list">
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">14</div><div class="ev-mo">May</div></div><div><div class="ev-t">LOVE Park Outreach <span class="ev-badge">Weekly</span></div><div class="ev-m">6:45 PM · 15th & JFK Blvd</div></div></div>
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">15</div><div class="ev-mo">May</div></div><div><div class="ev-t">Thursday Kit Making</div><div class="ev-m">6:00 PM · Contact Sherm for location</div></div></div>
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">17</div><div class="ev-mo">May</div></div><div><div class="ev-t">Kensington Outreach <span class="ev-badge">Weekly</span></div><div class="ev-m">12:30 PM · Ruth & Clearfield</div></div></div>
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">7</div><div class="ev-mo">Jun</div></div><div><div class="ev-t">Daniel Pugh Memorial Golf Outing</div><div class="ev-m">Tanglewood Manor, Quarryville PA</div></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-grid">
+    <div><div class="f-bn">The Everywhere Project</div><p class="f-tg">Philadelphia-based harm reduction nonprofit. Expanding access since 2021.</p><p class="f-ein">501(c)(3) · EIN 86-3635473<br>info@everywhereproject.org</p></div>
+    <div class="f-col"><h4>Services</h4><a>Community Outreach</a><a>Mobile Outreach</a><a>Event Support</a><a>Extreme Weather</a></div>
+    <div class="f-col"><h4>Organization</h4><a>Our Story</a><a>Team</a><a>Resources</a><a>Contact</a></div>
+    <div class="f-col"><h4>Get Involved</h4><a onclick="go('donate')">Donate</a><a onclick="go('involved')">Volunteer</a><a href="https://a.co/068DgYwJ" target="_blank">Amazon Wishlist</a><a>Merch Shop</a></div>
+  </div>
+  <div class="f-bot"><span class="f-copy">© 2026 The Everywhere Project</span><div class="f-soc"><span class="soc">ig</span><span class="soc">tk</span><span class="soc">fb</span></div></div>
+</footer>
+</div>
+
+<!-- ══════════════════════════════
+     SERVICES
+══════════════════════════════ -->
+
+<div id="p-services" class="pg">
+<div class="dn"><b>Services:</b> White body, clean and readable. Each block will eventually get its own URL. Event support ends with a purple CTA for organizers.</div>
+<div class="ih"><div class="ih-eye">Services</div><h1>Low barrier. Judgment free.<br><em>Always showing up.</em></h1><p>Meet people where they are, on their terms, without conditions.</p></div>
+<div class="svc-body">
+  <div class="svc-grid">
+    <div class="sb"><div class="sb-icon">🍲</div><h3>Community Meal Sites</h3><p>Two weekly sites, never missed since 2021.</p><ul><li>Hot food and to-go meals</li><li>Weather-appropriate clothing</li><li>Harm reduction support and education</li><li>Wound care (Saturdays)</li><li>Treatment referrals and social services</li><li>Hygiene and menstrual supplies</li></ul><p class="meta"><b>Wed 7–9 PM</b> · Love Park, 15th & JFK Blvd<br><b>Sat 1–4 PM</b> · Ruth & Clearfield, Kensington</p></div>
+    <div class="sb"><div class="sb-icon">🚐</div><h3>Mobile Outreach</h3><p>Out 6–7 days a week across Philadelphia and surrounding counties.</p><ul><li>Food and supply distribution</li><li>Emergency food within 24 hrs of a call</li><li>Treatment referrals</li><li>Connection to social services</li></ul></div>
+    <div class="sb"><div class="sb-icon">🎵</div><h3>Harm Reduction Event Support</h3><p>Customized for your event, festivals, raves, concerts, community gatherings.</p><ul><li>Naloxone and fentanyl testing strips</li><li>Safer use materials and tabling</li><li>Staff trainings and educational materials</li><li>First aid and on-site response</li></ul><p class="ct">Interested in TEP at your next event?</p><button class="btn bt" style="margin-top:9px;font-size:12px;padding:8px 16px" onclick="go('contact')">Request event support</button></div>
+    <div class="sb"><div class="sb-icon">🌡️</div><h3>Extreme Weather Response</h3><ul><li><b>Heat:</b> Cold drinks, cooling towels, electrolytes, transportation</li><li><b>Cold:</b> Hot drinks, blankets, mylar, warm clothing, transportation</li><li>On-site emergency medical response</li></ul></div>
+    <div class="sb"><div class="sb-icon">🎁</div><h3>Holiday Events</h3><ul><li>Two Thanksgiving feasts (one per site)</li><li>175+ Thanksgiving family boxes in 2025</li><li>Annual toy giveaway: about 1,000 toys for children</li></ul></div>
+    <div class="sb"><div class="sb-icon">🤝</div><h3>Specialized Support</h3><p>Meeting people wherever life has taken them.</p><ul><li>Support for people in treatment, newly housed, or hospitalized</li><li>40+ water shoes for Kensington youth (2023)</li><li>800 outfits for low-income housing programs (2024)</li><li>1,600 lbs food to Conwell Middle during SNAP cuts (2025)</li></ul></div>
+  </div>
+</div>
+<div class="mini-foot"><span>© 2026 The Everywhere Project · 501(c)(3)</span><span>EIN 86-3635473</span></div>
+</div>
+
+<!-- ══════════════════════════════
+     ABOUT
+══════════════════════════════ -->
+
+<div id="p-about" class="pg">
+<div class="dn"><b>About:</b> Story leads. Most compelling content on the site. Gradient background for mission/vision. Sand for the team section.</div>
+<div class="ih"><div class="ih-eye">Our story</div><h1>Born from necessity.<br><em>Built on showing up.</em></h1><p>A chance meeting in a Philadelphia subway station became one of the city's most active harm reduction organizations.</p></div>
+<div class="ab-body">
+  <div class="ab-story">
+    <h2>December 2020, Center City</h2>
+    <p>It was cold. Six months into the COVID-19 pandemic, overdoses were higher than they'd been in years, and nearly every existing outreach organization had stopped going out.</p>
+    <p>Jen had been doing street outreach for years. Shannon had just started and ran out of supplies within an hour. Jen loaded her up from her car without hesitation. They exchanged numbers and kept showing up, together.</p>
+    <blockquote class="ab-q">"We believe that people need people, and none of us can get through life alone."</blockquote>
+    <p>Four months later, they filed articles of incorporation. 501(c)(3) by May 2021. First week at Love Park: 30 people served. Now: 300+ every Wednesday. 5 million meals. #2 safer-use supplier in Philadelphia. Zero missed outreach events, ever.</p>
+    <div class="mv-grid">
+      <div class="mv"><h3>Mission</h3><p>Expand access to harm reduction services and education across Philadelphia through naloxone, testing strips, safer use kits, and community presence.</p></div>
+      <div class="mv"><h3>Vision</h3><p>A world without overdoses, where substance use is no longer stigmatized and every person receives the support and dignity they deserve.</p></div>
+    </div>
+  </div>
+</div>
+<div class="team-sec">
+  <div class="lbl">The team</div>
+  <h2 class="serif-lg" style="font-size:28px">The people who show up</h2>
+  <div class="team-grid">
+    <div class="tc"><div class="tc-av">SA</div><div class="tc-n">Shannon Ashe</div><div class="tc-r">Co-Founder</div><div class="tc-c">MSW, LCSW</div></div>
+    <div class="tc"><div class="tc-av">JS</div><div class="tc-n">Jen Shinefeld</div><div class="tc-r">Co-Founder</div><div class="tc-c">M.S.</div></div>
+    <div class="tc"><div class="tc-av">TF</div><div class="tc-n">Thomas Frey</div><div class="tc-r">Director of Operations</div></div>
+    <div class="tc"><div class="tc-av">SB</div><div class="tc-n">Steven Bravato</div><div class="tc-r">Operations Specialist</div></div>
+    <div class="tc"><div class="tc-av">JS</div><div class="tc-n">James Sherman</div><div class="tc-r">Volunteer Coordinator</div></div>
+    <div class="tc"><div class="tc-av">GP</div><div class="tc-n">Galen Pugh</div><div class="tc-r">Director of Finance</div></div>
+    <div class="tc"><div class="tc-av">GF</div><div class="tc-n">Greg Frey</div><div class="tc-r">Harm Reduction Specialist</div></div>
+    <div class="tc"><div class="tc-av">ES</div><div class="tc-n">Emily Seeburger</div><div class="tc-r">Volunteer Coordinator</div></div>
+  </div>
+</div>
+<div class="mini-foot"><span>© 2026 The Everywhere Project · 501(c)(3)</span><span>EIN 86-3635473</span></div>
+</div>
+
+<!-- ══════════════════════════════
+     RESOURCES
+══════════════════════════════ -->
+
+<div id="p-resources" class="pg">
+<div class="dn"><b>Resources:</b> White base, gradient cards. Scannable by category. Each resource is a discrete card, not a dense list.</div>
+<div class="ih"><div class="ih-eye">Resources</div><h1>Evidence-based.<br><em>Free to share.</em></h1><p>Harm reduction materials by TEP's co-founders, printable, shareable, grounded in current research.</p></div>
+<div class="res-body">
+  <div class="res-grid">
+    <div class="rc"><div class="rc-tag">Overdose Prevention</div><h3>Naloxone Administration Guide</h3><p>Step-by-step overdose reversal training, when to use naloxone, and what to do after. English and Spanish.</p><span class="rc-dl">Download PDF</span></div>
+    <div class="rc"><div class="rc-tag">Drug Checking</div><h3>Fentanyl Testing Strips Guide</h3><p>How to use strips, interpret results, and understand the limits of drug checking.</p><span class="rc-dl">Download PDF</span></div>
+    <div class="rc"><div class="rc-tag">Wound Care</div><h3>Xylazine and Tranq Wound Care</h3><p>Comprehensive wound care for xylazine-related skin wounds, cleaning, dressing, when to seek care.</p><span class="rc-dl">Download PDF</span></div>
+    <div class="rc"><div class="rc-tag">Education</div><h3>Safer Snorting Guide</h3><p>Reducing risk of infection, nosebleeds, and disease transmission from snorting substances.</p><span class="rc-dl">Download PDF</span></div>
+    <div class="rc"><div class="rc-tag">Education</div><h3>Xylazine (Tranq) Overview</h3><p>What is xylazine, how it interacts with opioids, and why it matters for overdose response.</p><span class="rc-dl">Download PDF</span></div>
+    <div class="rc"><div class="rc-tag">Training</div><h3>Request a Training</h3><p>TEP provides staff trainings on naloxone, harm reduction basics, and overdose response for organizations and events.</p><span class="rc-dl" style="color:var(--terra);cursor:pointer" onclick="go('contact')">Get in touch →</span></div>
+  </div>
+</div>
+<div class="mini-foot"><span>© 2026 The Everywhere Project · 501(c)(3)</span><span>EIN 86-3635473</span></div>
+</div>
+
+<!-- ══════════════════════════════
+     GET INVOLVED
+══════════════════════════════ -->
+
+<div id="p-involved" class="pg">
+<div class="dn"><b>Get Involved:</b> Separated from Donate. Volunteer options, full calendar, clothing info here. Gradient info boxes for practical details. Contact Sherm for volunteering questions.</div>
+<div class="ih"><div class="ih-eye">Get involved</div><h1>Show up with us.<br><em>Your community needs you.</em></h1><p>No experience required. Volunteers are why we serve 1,000+ neighbors every week.</p></div>
+<div class="gi-body">
+  <div>
+    <div class="lbl">How to volunteer</div>
+    <h2 class="serif-lg" style="font-size:26px">Pick what works for you</h2>
+    <div class="gi-opts">
+      <div class="gi-o"><div class="v-icon">🌆</div><div><h4>LOVE Park, Wednesdays</h4><p>6:45 PM · 15th & JFK Blvd, Center City</p></div></div>
+      <div class="gi-o"><div class="v-icon">🏘️</div><div><h4>Kensington, Saturdays</h4><p>12:30 PM · Ruth & Clearfield St.</p></div></div>
+      <div class="gi-o"><div class="v-icon">🧰</div><div><h4>Thursday Kit Making</h4><p>6:00 PM · Contact Sherm for location</p></div></div>
+      <div class="gi-o"><div class="v-icon">🎉</div><div><h4>Event Support</h4><p>Festivals and community events, varies</p></div></div>
+    </div>
+    <div class="info-b"><b>Questions about volunteering?</b>Contact James "Sherm" Sherman: <a href="mailto:sherm@everywhereproject.org" style="color:var(--terra)">sherm@everywhereproject.org</a></div>
+    <div class="info-b"><b>Clothing Donations</b>Gently used, clean, any gender or season. Drop off at either outreach site, or <span style="color:var(--terra);cursor:pointer" onclick="go('contact')">get in touch</span> if you can't make it.</div>
+  </div>
+  <div>
+    <div class="ev-lbl">Full calendar, May/June 2026</div>
+    <div class="ev-list">
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">13</div><div class="ev-mo">May</div></div><div><div class="ev-t">LOVE Park Outreach <span class="ev-badge">Weekly</span></div><div class="ev-m">6:45 PM · 15th & JFK Blvd</div></div></div>
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">15</div><div class="ev-mo">May</div></div><div><div class="ev-t">Thursday Kit Making</div><div class="ev-m">6:00 PM · Contact Sherm</div></div></div>
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">17</div><div class="ev-mo">May</div></div><div><div class="ev-t">Kensington Outreach <span class="ev-badge">Weekly</span></div><div class="ev-m">12:30 PM · Ruth & Clearfield</div></div></div>
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">20</div><div class="ev-mo">May</div></div><div><div class="ev-t">LOVE Park Outreach <span class="ev-badge">Weekly</span></div><div class="ev-m">6:45 PM · 15th & JFK Blvd</div></div></div>
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">22</div><div class="ev-mo">May</div></div><div><div class="ev-t">Thursday Kit Making</div><div class="ev-m">6:00 PM · Contact Sherm</div></div></div>
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">24</div><div class="ev-mo">May</div></div><div><div class="ev-t">Kensington Outreach <span class="ev-badge">Weekly</span></div><div class="ev-m">12:30 PM · Ruth & Clearfield</div></div></div>
+      <div class="ev-row"><div class="ev-d"><div class="ev-day">7</div><div class="ev-mo">Jun</div></div><div><div class="ev-t">Daniel Pugh Memorial Golf Outing</div><div class="ev-m">Tanglewood Manor, Quarryville PA</div></div></div>
+    </div>
+  </div>
+</div>
+<div class="mini-foot"><span>© 2026 The Everywhere Project · 501(c)(3)</span><span>EIN 86-3635473</span></div>
+</div>
+
+<!-- ══════════════════════════════
+     DONATE
+══════════════════════════════ -->
+
+<div id="p-donate" class="pg">
+<div class="dn"><b>Donate:</b> Sand background keeps it warm. Giving levels anchored to real outcomes. Featured card uses gradient. Amazon Wishlist is a footnote in the gradient aside, not competing with financial giving.</div>
+<div class="ih"><div class="ih-eye">Make a difference</div><h1>Your support keeps us<br><em>showing up.</em></h1><p>Every dollar funds naloxone, food, clothing, and supplies for Philadelphia's most vulnerable neighbors. Fully tax deductible.</p></div>
+<div class="don">
+  <div>
+    <div class="lbl lbl-t">Choose your impact</div>
+    <h2 class="serif-lg" style="font-size:28px">What your gift provides</h2>
+    <div class="g-grid">
+      <div class="gc"><div class="g-amt">$25</div><div class="g-what">5 doses of naloxone, enough to reverse 5 overdoses</div></div>
+      <div class="gc feat"><div class="g-pop">Most impactful</div><div class="g-amt">$50</div><div class="g-what">Full safer use and hygiene kit for one person for a week</div></div>
+      <div class="gc"><div class="g-amt">$100</div><div class="g-what">One full kit-making session supplying a week of outreach</div></div>
+      <div class="gc"><div class="g-amt">$250</div><div class="g-what">Supplies for an entire event serving 100+ people</div></div>
+    </div>
+    <div class="monthly"><b>Monthly giving, highest impact</b>A recurring gift lets us plan ahead and buy in bulk. $20/month = 240+ naloxone doses a year.</div>
+    <div style="margin-top:16px;display:flex;gap:10px;align-items:center">
+      <button class="btn bt">Donate Now</button>
+      <span style="font-size:11px;color:var(--ink-light)">Secure · Tax-deductible · 501(c)(3)</span>
+    </div>
+  </div>
+  <div class="d-aside">
+    <div class="ai"><div class="a-icon">💊</div><div><h4>Naloxone saves lives</h4><p>TEP is the #2 provider of safer-use supplies in Philadelphia. Every kit is a potential life saved.</p></div></div>
+    <div class="a-div"></div>
+    <div class="ai"><div class="a-icon">🍲</div><div><h4>5 million meals distributed</h4><p>Not one outreach event missed since 2021. Your donation keeps that streak alive.</p></div></div>
+    <div class="a-div"></div>
+    <div class="ai"><div class="a-icon">👕</div><div><h4>Clothing, hygiene and more</h4><p>Wound care, clothing, and human connection, every single week in every kind of weather.</p></div></div>
+    <div class="a-div"></div>
+    <p class="a-wish">Prefer to donate supplies? <a href="https://a.co/068DgYwJ" target="_blank">View the Amazon Wishlist →</a></p>
+  </div>
+</div>
+<div class="mini-foot"><span>© 2026 The Everywhere Project · 501(c)(3)</span><span>EIN 86-3635473</span></div>
+</div>
+
+<!-- ══════════════════════════════
+     CONTACT
+══════════════════════════════ -->
+
+<div id="p-contact" class="pg">
+<div class="dn"><b>Contact:</b> White base. Clean form left, gradient info cards right. Dropdown categorizes inquiry type so submissions route correctly to the right person.</div>
+<div class="ih"><div class="ih-eye">Contact</div><h1>We'd love to<br><em>hear from you.</em></h1><p>Partners, event organizers, volunteers, donors, reach out anytime.</p></div>
+<div class="co-body">
+  <div class="f-stack">
+    <div class="f-row2">
+      <div class="fg"><label>First name</label><input type="text" placeholder="Shannon"></div>
+      <div class="fg"><label>Last name</label><input type="text" placeholder="Ashe"></div>
+    </div>
+    <div class="fg"><label>Email</label><input type="email" placeholder="you@example.com"></div>
+    <div class="fg"><label>What can we help with?</label>
+      <select>
+        <option>General question</option>
+        <option>Volunteer inquiry</option>
+        <option>Event support request</option>
+        <option>Donation or partnership</option>
+        <option>Media or press</option>
+        <option>Training request</option>
+        <option>Clothing donation</option>
+      </select>
+    </div>
+    <div class="fg"><label>Message</label><textarea placeholder="Tell us what's on your mind..."></textarea></div>
+    <button class="sbtn">Send message</button>
+  </div>
+  <div class="co-info">
+    <div class="ci"><div class="ci-icon">📧</div><div><h4>General</h4><p>info@everywhereproject.org</p></div></div>
+    <div class="ci"><div class="ci-icon">🤝</div><div><h4>Volunteering</h4><p>James "Sherm" Sherman<br>sherm@everywhereproject.org</p></div></div>
+    <div>
+      <div class="lbl" style="margin-bottom:8px">Find us at outreach</div>
+      <div class="site-cards">
+        <div class="site-c"><h4>LOVE Park, Wednesdays</h4><p>7:00–9:00 PM · 15th & JFK Blvd, Center City</p></div>
+        <div class="site-c"><h4>Kensington, Saturdays</h4><p>1:00–4:00 PM · Ruth & Clearfield St., Kensington</p></div>
+      </div>
+    </div>
+    <div style="background:var(--sand);border:1px solid var(--sand-b);border-radius:7px;padding:13px 15px">
+      <div class="lbl" style="margin-bottom:4px">Follow along</div>
+      <p style="font-size:12px;color:var(--ink-mid)">Most current updates on Instagram: <a href="https://instagram.com/the_everywhere_project" style="color:var(--terra)" target="_blank">@the_everywhere_project</a></p>
+    </div>
+  </div>
+</div>
+<div class="mini-foot"><span>© 2026 The Everywhere Project · 501(c)(3)</span><span>EIN 86-3635473</span></div>
+</div>
+
+<!-- ══════════════════════════════
+     DESIGN NOTES
+══════════════════════════════ -->
+
+<div id="p-notes" class="pg">
+<div class="ih"><div class="ih-eye">Design rationale</div><h1>Why this redesign<br><em>looks like this.</em></h1><p>Every color and layout decision has a reason.</p></div>
+<div class="notes-body">
+  <div class="lbl lbl-t">The palette, purple and teal, used deliberately</div>
+  <h2 class="serif-lg" style="font-size:26px;margin-bottom:16px">Warm, human, and restrained</h2>
+  <div class="pal">
+    <div class="sw"><div class="sw-c" style="background:#1a1714"></div><div class="sw-l">Ink</div><div class="sw-h">#1a1714</div></div>
+    <div class="sw"><div class="sw-c" style="background:#8b5fbf"></div><div class="sw-l">Purple</div><div class="sw-h">#8b5fbf</div></div>
+    <div class="sw"><div class="sw-c" style="background:#4a7fa0"></div><div class="sw-l">Teal</div><div class="sw-h">#4a7fa0</div></div>
+    <div class="sw"><div class="sw-c" style="background:#4dd0e1"></div><div class="sw-l">Cyan</div><div class="sw-h">#4dd0e1</div></div>
+    <div class="sw"><div class="sw-c" style="background:#f5e8f8;border:1px solid #e8d8f0"></div><div class="sw-l">Lavender</div><div class="sw-h">#f5e8f8</div></div>
+    <div class="sw"><div class="sw-c" style="background:#f0f0f8;border:1px solid #e0e0f0"></div><div class="sw-l">Periwinkle</div><div class="sw-h">#f0f0f8</div></div>
+  </div>
+  <div class="notes-grid">
+    <div class="nc"><div class="nc-n">01</div><h3>Purple/teal gradient for momentum</h3><p>The hero and inner page headers use a dynamic gradient that suggests movement and energy while staying sophisticated. It communicates that TEP is active, modern, and always moving forward.</p></div>
+    <div class="nc"><div class="nc-n">02</div><h3>Purple only on actions and accents</h3><p>Purple appears on: all CTA buttons, typography highlights, badges, and team avatars. Every purple element reads as "this matters" or "act here" without needing to say so.</p></div>
+    <div class="nc"><div class="nc-n">03</div><h3>Cyan for warmth and humanity</h3><p>The bright cyan accent appears in italicized headings and stat numbers, signaling the human, emotional core of the work. It's warm without being sentimental.</p></div>
+    <div class="nc"><div class="nc-n">04</div><h3>Lavender and Periwinkle gradients</h3><p>Cards, mission boxes, and info sections use soft purple-to-cyan gradients, creating visual interest while keeping backgrounds restful. These sections feel inviting and safe.</p></div>
+    <div class="nc"><div class="nc-n">05</div><h3>White base stays foundational</h3><p>Body sections still start from white. This ensures readability and focus, while color becomes a supporting player rather than the main event.</p></div>
+    <div class="nc"><div class="nc-n">06</div><h3>Lora and Inter, same partnership</h3><p>Lora is literary and humanist. Inter is clean and neutral. Together they still communicate care and accessibility, now wrapped in a more modern color story.</p></div>
+  </div>
+</div>
+<div class="mini-foot"><span>© 2026 The Everywhere Project, Redesign Mockup v3 (Purple and Teal)</span></div>
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  const el = document.getElementById('p-' + id);
+  if (el) { el.classList.add('on'); window.scrollTo(0, 0); }
+  const ids = ['home','services','about','resources','involved','donate','contact','notes'];
+  const tabs = document.querySelectorAll('.tab');
+  const i = ids.indexOf(id);
+  if (i >= 0 && tabs[i]) tabs[i].classList.add('on');
+}
+</script>
+
+</body>
+</html>
